@@ -107,7 +107,7 @@ public class GridManager : MonoBehaviour
 
     public bool AreAllPixelsCleared()
     {
-        return activePixels.Count == 0 || activePixels.TrueForAll(p => p == null);
+        return activePixels.Count == 0;
     }
 
     public int GetPixelCount()

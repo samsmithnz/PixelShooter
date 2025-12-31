@@ -12,11 +12,15 @@ public class Shooter : MonoBehaviour
     private float moveSpeed = 2f;
     private float shootInterval = 0.2f;
     private float lastShootTime;
+    private GridManager gridManager;
+    private GameManager gameManager;
 
     void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         textMesh = GetComponentInChildren<TextMesh>();
+        gridManager = FindObjectOfType<GridManager>();
+        gameManager = FindObjectOfType<GameManager>();
     }
 
     public void Initialize(int num, int balls, PixelColor color)
@@ -27,7 +31,7 @@ public class Shooter : MonoBehaviour
         
         if (spriteRenderer != null)
         {
-            spriteRenderer.color = GetColorFromEnum(color);
+            spriteRenderer.color = ColorUtility.GetColorFromPixelColor(color);
         }
         
         if (textMesh != null)
@@ -62,7 +66,6 @@ public class Shooter : MonoBehaviour
     {
         if (ballCount <= 0) return;
 
-        GridManager gridManager = FindObjectOfType<GridManager>();
         if (gridManager != null)
         {
             Pixel targetPixel = gridManager.GetPixelInLineOfSight(transform.position, number);
@@ -83,7 +86,6 @@ public class Shooter : MonoBehaviour
 
     private void CheckIfShooterComplete()
     {
-        GameManager gameManager = FindObjectOfType<GameManager>();
         if (gameManager != null)
         {
             gameManager.OnShooterComplete(this);
@@ -95,22 +97,6 @@ public class Shooter : MonoBehaviour
         if (textMesh != null)
         {
             textMesh.text = $"{number}\n{ballCount}";
-        }
-    }
-
-    private Color GetColorFromEnum(PixelColor color)
-    {
-        switch (color)
-        {
-            case PixelColor.Red: return Color.red;
-            case PixelColor.Blue: return Color.blue;
-            case PixelColor.Yellow: return Color.yellow;
-            case PixelColor.Green: return Color.green;
-            case PixelColor.Orange: return new Color(1f, 0.5f, 0f);
-            case PixelColor.Purple: return new Color(0.5f, 0f, 0.5f);
-            case PixelColor.Black: return Color.black;
-            case PixelColor.White: return Color.white;
-            default: return Color.gray;
         }
     }
 }
