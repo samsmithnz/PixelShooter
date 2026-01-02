@@ -15,20 +15,57 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        Debug.Log("[GameManager] Start() called");
+        
+        // Validate all required references before initializing
+        bool hasErrors = false;
+        
+        if (gridManager == null)
+        {
+            Debug.LogError("[GameManager] GridManager is NOT assigned! Go to the GameManager GameObject in the Hierarchy, then in the Inspector, drag the GridManager GameObject to the 'Grid Manager' field.");
+            hasErrors = true;
+        }
+        
+        if (shooterPrefab == null)
+        {
+            Debug.LogError("[GameManager] ShooterPrefab is NOT assigned! Go to the GameManager GameObject in the Inspector and assign a shooter prefab to the 'Shooter Prefab' field.");
+            hasErrors = true;
+        }
+        
+        if (shooterSelectionArea == null)
+        {
+            Debug.LogWarning("[GameManager] ShooterSelectionArea is not assigned. Shooters may not appear correctly.");
+        }
+        
+        if (hasErrors)
+        {
+            Debug.LogError("[GameManager] Cannot initialize game due to missing references. Please fix the errors above.");
+            return;
+        }
+        
         InitializeGame();
     }
 
     public void InitializeGame()
     {
+        Debug.Log("[GameManager] InitializeGame() called");
+        
         // Initialize the grid
         if (gridManager != null)
         {
+            Debug.Log("[GameManager] GridManager found, initializing grid...");
             gridManager.InitializeGrid();
+        }
+        else
+        {
+            Debug.LogError("[GameManager] GridManager is NULL! Please assign it in the Inspector.");
         }
 
         // Create shooters
+        Debug.Log("[GameManager] Creating shooters...");
         CreateShooters();
         
+        Debug.Log($"[GameManager] Created {availableShooters.Count} shooters");
         UpdateStatus();
     }
 
@@ -46,6 +83,11 @@ public class GameManager : MonoBehaviour
 
         // Count pixels per number to determine ball counts
         Dictionary<int, int> pixelCounts = CountPixelsPerNumber();
+        Debug.Log($"[GameManager] Found {pixelCounts.Count} different pixel numbers");
+        foreach (var kvp in pixelCounts)
+        {
+            Debug.Log($"[GameManager] Pixel number {kvp.Key}: {kvp.Value} pixels");
+        }
 
         // Create shooters with appropriate ball counts
         for (int i = 0; i < numberOfShooters; i++)
@@ -55,8 +97,14 @@ public class GameManager : MonoBehaviour
             
             if (ballCount > 0)
             {
+                Debug.Log($"[GameManager] Creating shooter {shooterNumber} with {ballCount} balls");
                 CreateShooter(shooterNumber, ballCount, i);
             }
+        }
+        
+        if (shooterPrefab == null)
+        {
+            Debug.LogError("[GameManager] ShooterPrefab is NULL! Please assign it in the Inspector.");
         }
     }
 

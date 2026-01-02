@@ -15,7 +15,16 @@ public class GridManager : MonoBehaviour
 
     public void InitializeGrid()
     {
+        Debug.Log("[GridManager] InitializeGrid() called");
         ClearGrid();
+        
+        if (pixelPrefab == null)
+        {
+            Debug.LogError("[GridManager] PixelPrefab is NULL! Please assign it in the Inspector.");
+            return;
+        }
+        
+        Debug.Log($"[GridManager] Creating {gridWidth}x{gridHeight} grid with {numberOfLayers} layers");
         
         for (int layer = 0; layer < numberOfLayers; layer++)
         {
@@ -27,6 +36,8 @@ public class GridManager : MonoBehaviour
                 }
             }
         }
+        
+        Debug.Log($"[GridManager] Grid initialized with {activePixels.Count} total pixels");
     }
 
     private void CreatePixel(int x, int y, int layer)
