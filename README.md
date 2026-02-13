@@ -4,10 +4,10 @@ A simple mobile puzzle game where players use color-matched shooters to clear la
 ## Game Design Document
 
 ### Overview
-PixelShooter is a puzzle game where players strategically select and use color-matched shooters to destroy layered pixels in a grid, revealing hidden designs underneath. The game combines color matching, line-of-sight mechanics, and strategic planning to create an engaging puzzle experience.
+PixelShooter is a puzzle game where players strategically select and use colored shooters, that rotate around and destroy pixels designs. A game is completed when the pixels are all removed, or the player has too many shooters in play. The game combines color matching, line-of-sight mechanics, and strategic planning to create an engaging puzzle experience.
 
 ### Core Concept
-Players are presented with a grid of colored pixel squares containing layered designs. Moving shooter squares at the bottom of the screen can be selected and activated to fire balls at matching-colored pixels, destroying them and revealing the pixels behind. The goal is to clear all pixels from the grid using the available shooters.
+Players are presented with a grid of colored pixel squares. Shooters at the bottom of the screen can be selected and activated, which causes them to rotate around a path on the level to shoot balls at matching-colored pixels - when they align vertically or horizontally, destroying them and revealing the pixels behind. The goal is to clear all pixels from the grid using the available shooters.
 
 ## Technical Implementation
 
