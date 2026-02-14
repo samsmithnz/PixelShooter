@@ -307,9 +307,6 @@ MonoBehaviour:
   shooterSelectionArea: {fileID: 3456789012}
   activeShooterPosition: {fileID: 0}
   statusText: {fileID: 0}
-  availableShooters: []
-  activeShooter: {fileID: 0}
-  numberOfShooters: 8
 --- !u!1 &2345678900
 GameObject:
   m_ObjectHideFlags: 0
@@ -360,7 +357,6 @@ MonoBehaviour:
   numberOfLayers: 2
   pixelSize: 1
   pixelSpacing: 0.1
-  activePixels: []
 --- !u!1 &3456789011
 GameObject:
   m_ObjectHideFlags: 0
