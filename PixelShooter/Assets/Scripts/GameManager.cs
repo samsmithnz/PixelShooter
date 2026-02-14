@@ -1,46 +1,40 @@
 using System.Collections.Generic;
 using UnityEngine;
+using PixelShooter.Grid;
 
 public class GameManager : MonoBehaviour
 {
-    public GridManager gridManager;
+    [Header("Grid System")]
+    public GridRenderer gridRenderer;
+
+    [Header("Shooter Configuration")]
     public GameObject shooterPrefab;
     public Transform shooterSelectionArea;
-    public Transform activeShooterPosition;
     public TextMesh statusText;
     
     private List<Shooter> availableShooters = new List<Shooter>();
     private Shooter activeShooter = null;
-    private int numberOfShooters = 8;
 
     void Start()
     {
         Debug.Log("[GameManager] Start() called");
         
-        // Validate all required references before initializing
-        bool hasErrors = false;
-        
-        if (gridManager == null)
+        // Validate required references
+        if (gridRenderer == null)
         {
-            Debug.LogError("[GameManager] GridManager is NOT assigned! Go to the GameManager GameObject in the Hierarchy, then in the Inspector, drag the GridManager GameObject to the 'Grid Manager' field.");
-            hasErrors = true;
+            Debug.LogError("[GameManager] GridRenderer is NOT assigned! Please assign it in the Inspector.");
+            return;
         }
         
         if (shooterPrefab == null)
         {
-            Debug.LogError("[GameManager] ShooterPrefab is NOT assigned! Go to the GameManager GameObject in the Inspector and assign a shooter prefab to the 'Shooter Prefab' field.");
-            hasErrors = true;
+            Debug.LogError("[GameManager] ShooterPrefab is NOT assigned! Please assign it in the Inspector.");
+            return;
         }
         
         if (shooterSelectionArea == null)
         {
             Debug.LogWarning("[GameManager] ShooterSelectionArea is not assigned. Shooters may not appear correctly.");
-        }
-        
-        if (hasErrors)
-        {
-            Debug.LogError("[GameManager] Cannot initialize game due to missing references. Please fix the errors above.");
-            return;
         }
         
         InitializeGame();
@@ -50,19 +44,22 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("[GameManager] InitializeGame() called");
         
-        // Initialize the grid
-        if (gridManager != null)
+        // Grid is already initialized by GridRenderer.Start()
+        // Wait a frame to ensure grid is ready
+        StartCoroutine(InitializeGameDelayed());
+    }
+
+    private System.Collections.IEnumerator InitializeGameDelayed()
+    {
+        yield return null; // Wait one frame for grid to initialize
+        
+        if (gridRenderer.GridData == null)
         {
-            Debug.Log("[GameManager] GridManager found, initializing grid...");
-            gridManager.InitializeGrid();
-        }
-        else
-        {
-            Debug.LogError("[GameManager] GridManager is NULL! Please assign it in the Inspector.");
+            Debug.LogError("[GameManager] GridRenderer.GridData is null! Grid may not have initialized properly.");
+            yield break;
         }
 
-        // Create shooters
-        Debug.Log("[GameManager] Creating shooters...");
+        // Create shooters based on colors present in grid
         CreateShooters();
         
         Debug.Log($"[GameManager] Created {availableShooters.Count} shooters");
@@ -81,55 +78,46 @@ public class GameManager : MonoBehaviour
         }
         availableShooters.Clear();
 
-        // Count pixels per number to determine ball counts
-        Dictionary<int, int> pixelCounts = CountPixelsPerNumber();
-        Debug.Log($"[GameManager] Found {pixelCounts.Count} different pixel numbers");
+        // Count pixels per color to determine ball counts
+        Dictionary<PixelColor, int> pixelCounts = CountPixelsPerColor();
+        Debug.Log($"[GameManager] Found {pixelCounts.Count} different pixel colors");
+        
+        int shooterIndex = 0;
         foreach (var kvp in pixelCounts)
         {
-            Debug.Log($"[GameManager] Pixel number {kvp.Key}: {kvp.Value} pixels");
-        }
-
-        // Create shooters with appropriate ball counts
-        for (int i = 0; i < numberOfShooters; i++)
-        {
-            int shooterNumber = i + 1;
-            int ballCount = pixelCounts.ContainsKey(shooterNumber) ? pixelCounts[shooterNumber] : 0;
+            PixelColor color = kvp.Key;
+            int ballCount = kvp.Value;
             
             if (ballCount > 0)
             {
-                Debug.Log($"[GameManager] Creating shooter {shooterNumber} with {ballCount} balls");
-                CreateShooter(shooterNumber, ballCount, i);
+                Debug.Log($"[GameManager] Creating shooter for color {color} with {ballCount} balls");
+                CreateShooter(color, ballCount, shooterIndex);
+                shooterIndex++;
             }
-        }
-        
-        if (shooterPrefab == null)
-        {
-            Debug.LogError("[GameManager] ShooterPrefab is NULL! Please assign it in the Inspector.");
         }
     }
 
-    private Dictionary<int, int> CountPixelsPerNumber()
+    private Dictionary<PixelColor, int> CountPixelsPerColor()
     {
-        Dictionary<int, int> counts = new Dictionary<int, int>();
+        Dictionary<PixelColor, int> counts = new Dictionary<PixelColor, int>();
         
-        if (gridManager != null)
+        if (gridRenderer != null && gridRenderer.GridData != null)
         {
-            // Get all pixels and count by number
-            Pixel[] allPixels = FindObjectsOfType<Pixel>();
-            foreach (Pixel pixel in allPixels)
+            // Count pixels of each color
+            foreach (PixelColor color in System.Enum.GetValues(typeof(PixelColor)))
             {
-                if (!counts.ContainsKey(pixel.number))
+                int count = gridRenderer.CountPixelsOfColor(color);
+                if (count > 0)
                 {
-                    counts[pixel.number] = 0;
+                    counts[color] = count;
                 }
-                counts[pixel.number]++;
             }
         }
         
         return counts;
     }
 
-    private void CreateShooter(int number, int ballCount, int index)
+    private void CreateShooter(PixelColor color, int ballCount, int index)
     {
         Vector3 position = new Vector3(
             index * 1.2f - 4f, 
@@ -142,8 +130,7 @@ public class GameManager : MonoBehaviour
         
         if (shooter != null)
         {
-            PixelColor color = (PixelColor)(index % System.Enum.GetValues(typeof(PixelColor)).Length);
-            shooter.Initialize(number, ballCount, color);
+            shooter.Initialize(color, ballCount);
             availableShooters.Add(shooter);
             
             // Add click detection
@@ -174,7 +161,7 @@ public class GameManager : MonoBehaviour
         }
 
         // Check if game is complete
-        if (gridManager != null && gridManager.AreAllPixelsCleared())
+        if (gridRenderer != null && gridRenderer.GridData != null && gridRenderer.GridData.IsGridEmpty())
         {
             UpdateStatus("All pixels cleared! Game complete!");
         }
@@ -189,7 +176,7 @@ public class GameManager : MonoBehaviour
         shooter.transform.position = new Vector3(-5f, 0f, 0f);
         shooter.Activate();
         
-        UpdateStatus($"Shooter {shooter.number} activated!");
+        UpdateStatus($"Shooter {shooter.shooterColor} activated!");
     }
 
     public void OnShooterComplete(Shooter shooter)
@@ -198,7 +185,7 @@ public class GameManager : MonoBehaviour
         {
             activeShooter = null;
             Destroy(shooter.gameObject);
-            UpdateStatus($"Shooter {shooter.number} complete! Select next shooter.");
+            UpdateStatus($"Shooter {shooter.shooterColor} complete! Select next shooter.");
         }
     }
 
@@ -212,9 +199,30 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                int pixelCount = gridManager != null ? gridManager.GetPixelCount() : 0;
+                int pixelCount = gridRenderer != null && gridRenderer.GridData != null 
+                    ? GetTotalPixelCount() : 0;
                 statusText.text = $"Pixels remaining: {pixelCount} | Shooters: {availableShooters.Count}";
             }
         }
+    }
+
+    private int GetTotalPixelCount()
+    {
+        int total = 0;
+        GridData grid = gridRenderer.GridData;
+        
+        for (int x = 0; x < grid.Width; x++)
+        {
+            for (int y = 0; y < grid.Height; y++)
+            {
+                GridCell cell = grid.GetCell(x, y);
+                if (cell != null)
+                {
+                    total += cell.LayerCount;
+                }
+            }
+        }
+        
+        return total;
     }
 }

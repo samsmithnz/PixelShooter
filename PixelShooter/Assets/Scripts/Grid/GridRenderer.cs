@@ -160,6 +160,52 @@ namespace PixelShooter.Grid
         }
 
         /// <summary>
+        /// Gets the pixel in line of sight from a given position (vertical line upward).
+        /// </summary>
+        public bool GetPixelInLineOfSight(Vector3 shooterPosition, PixelColor targetColor, out int gridX, out int gridY)
+        {
+            gridX = -1;
+            gridY = -1;
+
+            // Convert world position to grid coordinates
+            float totalWidth = gridData.Width * (cellSize + cellSpacing) - cellSpacing;
+            float totalHeight = gridData.Height * (cellSize + cellSpacing) - cellSpacing;
+            Vector3 offset = new Vector3(-totalWidth / 2f, -totalHeight / 2f, 0f);
+            Vector3 gridPos = shooterPosition - transform.position - offset;
+
+            // Find the X column
+            int column = Mathf.RoundToInt(gridPos.x / (cellSize + cellSpacing));
+            
+            if (column < 0 || column >= gridData.Width)
+                return false;
+
+            // Search upward from bottom for first non-empty cell with matching color
+            for (int y = 0; y < gridData.Height; y++)
+            {
+                GridCell cell = gridData.GetCell(column, y);
+                if (cell != null && !cell.IsEmpty && cell.CurrentLayer.color == targetColor)
+                {
+                    gridX = column;
+                    gridY = y;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Counts total number of pixels with a specific color across all layers.
+        /// </summary>
+        public int CountPixelsOfColor(PixelColor color)
+        {
+            if (gridData == null)
+                return 0;
+
+            return gridData.CountPixelsOfColor(color);
+        }
+
+        /// <summary>
         /// Clears the entire grid and destroys all pixel renderers.
         /// </summary>
         private void ClearGrid()
