@@ -138,6 +138,7 @@ namespace PixelShooter.Core
             grid.AddPixel(new Data.Pixel(Data.PixelColor.Red, pos, 2));
 
             Gameplay.Shooter shooter = new Gameplay.Shooter(Data.PixelColor.Red, 10);
+            shooter.Activate(grid);
             List<Data.GridPosition> destroyed = shooter.RunCompletePath();
 
             bool success = destroyed.Count == 3; // Should destroy all 3 layers at column 3
@@ -159,6 +160,7 @@ namespace PixelShooter.Core
 
             // Shooter with only 3 balls (not enough for all 5)
             Gameplay.Shooter shooter = new Gameplay.Shooter(Data.PixelColor.Red, 3);
+            shooter.Activate(grid);
             List<Data.GridPosition> destroyed = shooter.RunCompletePath();
 
             bool success = destroyed.Count == 3 && shooter.IsComplete && shooter.BallCount == 0;
@@ -177,6 +179,7 @@ namespace PixelShooter.Core
 
             // Red shooter should not fire at all
             Gameplay.Shooter shooter = new Gameplay.Shooter(Data.PixelColor.Red, 10);
+            shooter.Activate(grid);
             List<Data.GridPosition> destroyed = shooter.RunCompletePath();
 
             bool success = destroyed.Count == 0 && shooter.BallCount == 10; // No shots fired
