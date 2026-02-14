@@ -21,7 +21,6 @@ namespace PixelShooter.UI
         [SerializeField] private bool animateChanges = true;
         [SerializeField] private float animationSpeed = 2f;
 
-        private int currentPixels;
         private int targetPixels;
         private int totalPixels;
         private float currentProgress;
@@ -47,7 +46,6 @@ namespace PixelShooter.UI
         public void Initialize(int total)
         {
             totalPixels = total;
-            currentPixels = total;
             targetPixels = total;
             currentProgress = 0f;
             targetProgress = 0f;
@@ -57,11 +55,6 @@ namespace PixelShooter.UI
         public void UpdateProgress(int remainingPixels)
         {
             targetPixels = remainingPixels;
-            
-            if (!animateChanges)
-            {
-                currentPixels = remainingPixels;
-            }
 
             if (totalPixels > 0)
             {
@@ -76,14 +69,8 @@ namespace PixelShooter.UI
             // Update pixels remaining text
             if (pixelsRemainingText != null)
             {
-                if (animateChanges)
-                {
-                    pixelsRemainingText.text = $"Pixels: {Mathf.RoundToInt(Mathf.Lerp(currentPixels, targetPixels, currentProgress))} / {totalPixels}";
-                }
-                else
-                {
-                    pixelsRemainingText.text = $"Pixels: {targetPixels} / {totalPixels}";
-                }
+                // For pixel count, just show the target value (no need for animated lerp since it's decremental)
+                pixelsRemainingText.text = $"Pixels: {targetPixels} / {totalPixels}";
             }
 
             // Update completion percentage text
