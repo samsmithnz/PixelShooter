@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 256260d9cd754d0eb3dc8e9c05aac2cb, type: 3}
+  m_Name: SampleLevel
+  gridWidth: 8
+  gridHeight: 8
+  gridCells:
+  - - {layers: []}
+    - {layers: [1]}
+    - {layers: [0]}
+    - {layers: [2]}
+    - {layers: [3]}
+    - {layers: [4]}
+    - {layers: [5]}
+    - {layers: []}
+  - - {layers: [0]}
+    - {layers: [0, 1]}
+    - {layers: []}
+    - {layers: []}
+    - {layers: []}
+    - {layers: []}
+    - {layers: [2, 3]}
+    - {layers: [2]}
+  - - {layers: [1]}
+    - {layers: []}
+    - {layers: [3]}
+    - {layers: []}
+    - {layers: []}
+    - {layers: [4]}
+    - {layers: []}
+    - {layers: [1]}
+  - - {layers: [2]}
+    - {layers: []}
+    - {layers: []}
+    - {layers: [5]}
+    - {layers: [5]}
+    - {layers: []}
+    - {layers: []}
+    - {layers: [0]}
+  - - {layers: [3]}
+    - {layers: []}
+    - {layers: []}
+    - {layers: [5]}
+    - {layers: [5]}
+    - {layers: []}
+    - {layers: []}
+    - {layers: [3]}
+  - - {layers: [4]}
+    - {layers: []}
+    - {layers: [2]}
+    - {layers: []}
+    - {layers: []}
+    - {layers: [1]}
+    - {layers: []}
+    - {layers: [4]}
+  - - {layers: [5]}
+    - {layers: [4, 5]}
+    - {layers: []}
+    - {layers: []}
+    - {layers: []}
+    - {layers: []}
+    - {layers: [0, 1]}
+    - {layers: [5]}
+  - - {layers: []}
+    - {layers: [5]}
+    - {layers: [4]}
+    - {layers: [3]}
+    - {layers: [2]}
+    - {layers: [1]}
+    - {layers: [0]}
+    - {layers: []}
