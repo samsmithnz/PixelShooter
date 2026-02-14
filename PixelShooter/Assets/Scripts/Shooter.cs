@@ -1,10 +1,14 @@
 using UnityEngine;
+using PixelShooter.Grid;
 
 public class Shooter : MonoBehaviour
 {
-    public int number;
-    public int ballCount;
     public PixelColor shooterColor;
+    public int ballCount;
+    
+    [Header("Movement Settings")]
+    [Tooltip("Boundary X position where shooter is considered out of bounds")]
+    public float rightBoundary = 10f;
     
     private SpriteRenderer spriteRenderer;
     private TextMesh textMesh;
@@ -12,22 +16,21 @@ public class Shooter : MonoBehaviour
     private float moveSpeed = 2f;
     private float shootInterval = 0.2f;
     private float lastShootTime;
-    private GridManager gridManager;
+    private GridRenderer gridRenderer;
     private GameManager gameManager;
 
     void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         textMesh = GetComponentInChildren<TextMesh>();
-        gridManager = FindObjectOfType<GridManager>();
+        gridRenderer = FindObjectOfType<GridRenderer>();
         gameManager = FindObjectOfType<GameManager>();
     }
 
-    public void Initialize(int num, int balls, PixelColor color)
+    public void Initialize(PixelColor color, int balls)
     {
-        number = num;
-        ballCount = balls;
         shooterColor = color;
+        ballCount = balls;
         
         if (spriteRenderer != null)
         {
@@ -36,7 +39,7 @@ public class Shooter : MonoBehaviour
         
         if (textMesh != null)
         {
-            textMesh.text = $"{number}\n{ballCount}";
+            textMesh.text = $"{color}\n{ballCount}";
             textMesh.color = Color.white;
         }
     }
@@ -60,20 +63,25 @@ public class Shooter : MonoBehaviour
             ShootAtPixels();
             lastShootTime = Time.time;
         }
+
+        // Check if out of bounds
+        if (transform.position.x > rightBoundary)
+        {
+            CheckIfShooterComplete();
+        }
     }
 
     private void ShootAtPixels()
     {
         if (ballCount <= 0) return;
 
-        if (gridManager != null)
+        if (gridRenderer != null)
         {
-            Pixel targetPixel = gridManager.GetPixelInLineOfSight(transform.position, number);
-            if (targetPixel != null)
+            int gridX, gridY;
+            if (gridRenderer.GetPixelInLineOfSight(transform.position, shooterColor, out gridX, out gridY))
             {
                 ballCount--;
-                targetPixel.Destroy();
-                gridManager.RemovePixel(targetPixel);
+                gridRenderer.DestroyPixelAt(gridX, gridY);
                 UpdateDisplay();
                 
                 if (ballCount <= 0)
@@ -96,7 +104,7 @@ public class Shooter : MonoBehaviour
     {
         if (textMesh != null)
         {
-            textMesh.text = $"{number}\n{ballCount}";
+            textMesh.text = $"{shooterColor}\n{ballCount}";
         }
     }
 }
