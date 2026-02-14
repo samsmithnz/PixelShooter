@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using PixelShooter.Data;
 
@@ -148,15 +149,7 @@ namespace PixelShooter.Game
             OnShooterCompleted?.Invoke(completedShooter);
 
             // Check if there are any available shooters left
-            bool hasAvailableShooters = false;
-            foreach (var shooter in shooters)
-            {
-                if (shooter.IsAvailable)
-                {
-                    hasAvailableShooters = true;
-                    break;
-                }
-            }
+            bool hasAvailableShooters = shooters.Any(s => s.IsAvailable);
 
             // Return to selection state if there are available shooters
             if (hasAvailableShooters)
@@ -202,15 +195,7 @@ namespace PixelShooter.Game
         /// </summary>
         public int GetAvailableShooterCount()
         {
-            int count = 0;
-            foreach (var shooter in shooters)
-            {
-                if (shooter.IsAvailable)
-                {
-                    count++;
-                }
-            }
-            return count;
+            return shooters.Count(s => s.IsAvailable);
         }
 
         /// <summary>
@@ -218,15 +203,7 @@ namespace PixelShooter.Game
         /// </summary>
         public int GetUsedShooterCount()
         {
-            int count = 0;
-            foreach (var shooter in shooters)
-            {
-                if (shooter.HasBeenUsed)
-                {
-                    count++;
-                }
-            }
-            return count;
+            return shooters.Count(s => s.HasBeenUsed);
         }
     }
 }

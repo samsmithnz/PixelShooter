@@ -12,6 +12,7 @@ namespace PixelShooter.Game
         [SerializeField] private ShooterData shooterData;
         [SerializeField] private float moveSpeed = 2f;
         [SerializeField] private float shootDelay = 0.2f;
+        [SerializeField] private float maxExecutionDistance = 8f;
 
         private bool isExecuting = false;
         private float currentPosition = 0f;
@@ -82,8 +83,8 @@ namespace PixelShooter.Game
                 TryShoot();
             }
 
-            // Example: End execution after 3 seconds (in real game, this would be based on grid width)
-            if (currentPosition >= 8f)
+            // End execution when reaching the maximum distance (in real game, this would be based on grid width)
+            if (currentPosition >= maxExecutionDistance)
             {
                 EndExecution();
             }
@@ -121,7 +122,7 @@ namespace PixelShooter.Game
         /// </summary>
         public float GetExecutionProgress()
         {
-            return Mathf.Clamp01(currentPosition / 8f);
+            return Mathf.Clamp01(currentPosition / maxExecutionDistance);
         }
 
         /// <summary>
