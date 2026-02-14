@@ -11,7 +11,7 @@ namespace PixelShooter.Grid
     {
         public const int DefaultGridSize = 8;
         public const int MinGridSize = 5;
-        public const int MaxGridSize = 10;
+        public const int MaxRecommendedGridSize = 10;
 
         private int width;
         private int height;

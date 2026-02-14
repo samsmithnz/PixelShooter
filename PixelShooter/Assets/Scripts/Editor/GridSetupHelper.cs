@@ -8,7 +8,7 @@ namespace PixelShooter.Editor
     /// Editor utility to help set up the GridRenderer in the scene.
     /// This can be run from Unity's menu: Tools > PixelShooter > Setup Grid Renderer
     /// </summary>
-    public class GridSetupHelper : MonoBehaviour
+    public class GridSetupHelper
     {
         [MenuItem("Tools/PixelShooter/Setup Grid Renderer")]
         public static void SetupGridRenderer()

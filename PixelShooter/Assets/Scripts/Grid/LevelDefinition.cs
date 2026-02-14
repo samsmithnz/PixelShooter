@@ -98,14 +98,17 @@ namespace PixelShooter.Grid
                     if (gridCells[y] == null || gridCells[y].Length != gridWidth)
                     {
                         CellDefinition[] newRow = new CellDefinition[gridWidth];
+                        int existingWidth = gridCells[y]?.Length ?? 0;
+                        
                         if (gridCells[y] != null)
                         {
                             // Copy existing cells
-                            int copyCount = Mathf.Min(gridCells[y].Length, gridWidth);
+                            int copyCount = Mathf.Min(existingWidth, gridWidth);
                             Array.Copy(gridCells[y], newRow, copyCount);
                         }
+                        
                         // Initialize any new cells
-                        for (int x = gridCells[y]?.Length ?? 0; x < gridWidth; x++)
+                        for (int x = existingWidth; x < gridWidth; x++)
                         {
                             newRow[x] = new CellDefinition();
                         }
