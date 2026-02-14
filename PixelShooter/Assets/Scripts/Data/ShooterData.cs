@@ -3,45 +3,62 @@ using UnityEngine;
 namespace PixelShooter.Data
 {
     /// <summary>
-    /// Represents a shooter with its color, ball count, and state
+    /// Represents the data and state for a single shooter
     /// </summary>
     [System.Serializable]
     public class ShooterData
     {
-        public Color color;
-        public string colorName;
-        public int totalBalls;
-        public int remainingBalls;
-        public bool isUsed;
-        public bool isSelected;
+        [SerializeField] private string id;
+        [SerializeField] private Color color;
+        [SerializeField] private int initialProjectileCount;
+        [SerializeField] private int currentProjectileCount;
+        [SerializeField] private bool hasBeenUsed;
 
-        public ShooterData(Color color, string colorName, int ballCount)
+        public string Id => id;
+        public Color Color => color;
+        public int InitialProjectileCount => initialProjectileCount;
+        public int CurrentProjectileCount => currentProjectileCount;
+        public bool HasBeenUsed => hasBeenUsed;
+        public bool IsAvailable => !hasBeenUsed && currentProjectileCount > 0;
+
+        public ShooterData(string id, Color color, int projectileCount)
         {
+            this.id = id;
             this.color = color;
-            this.colorName = colorName;
-            this.totalBalls = ballCount;
-            this.remainingBalls = ballCount;
-            this.isUsed = false;
-            this.isSelected = false;
+            this.initialProjectileCount = projectileCount;
+            this.currentProjectileCount = projectileCount;
+            this.hasBeenUsed = false;
         }
 
-        public void UseBall()
+        /// <summary>
+        /// Decrements the projectile count by one
+        /// </summary>
+        /// <returns>True if projectile was decremented, false if no projectiles remain</returns>
+        public bool UseProjectile()
         {
-            if (remainingBalls > 0)
+            if (currentProjectileCount > 0)
             {
-                remainingBalls--;
+                currentProjectileCount--;
+                return true;
             }
-            
-            if (remainingBalls == 0)
-            {
-                isUsed = true;
-            }
+            return false;
         }
 
-        public float GetPercentageRemaining()
+        /// <summary>
+        /// Marks this shooter as used
+        /// </summary>
+        public void MarkAsUsed()
         {
-            if (totalBalls == 0) return 0f;
-            return (float)remainingBalls / totalBalls;
+            hasBeenUsed = true;
+        }
+
+        /// <summary>
+        /// Resets the shooter to initial state (for level restart)
+        /// </summary>
+        public void Reset()
+        {
+            currentProjectileCount = initialProjectileCount;
+            hasBeenUsed = false;
         }
     }
 }
