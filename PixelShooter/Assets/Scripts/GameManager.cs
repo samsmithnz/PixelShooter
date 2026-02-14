@@ -12,6 +12,12 @@ public class GameManager : MonoBehaviour
     public Transform shooterSelectionArea;
     public TextMesh statusText;
     
+    [Header("Shooter Positioning")]
+    [Tooltip("Horizontal spacing between shooters")]
+    public float shooterSpacing = 1.2f;
+    [Tooltip("Starting X position for first shooter")]
+    public float shooterStartX = -4f;
+    
     private List<Shooter> availableShooters = new List<Shooter>();
     private Shooter activeShooter = null;
 
@@ -37,6 +43,27 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("[GameManager] ShooterSelectionArea is not assigned. Shooters may not appear correctly.");
         }
         
+        // Subscribe to grid initialization event
+        gridRenderer.OnGridInitialized += OnGridReady;
+        
+        // If grid is already initialized, initialize game immediately
+        if (gridRenderer.IsInitialized)
+        {
+            OnGridReady();
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (gridRenderer != null)
+        {
+            gridRenderer.OnGridInitialized -= OnGridReady;
+        }
+    }
+
+    private void OnGridReady()
+    {
+        Debug.Log("[GameManager] Grid is ready, initializing game...");
         InitializeGame();
     }
 
@@ -44,19 +71,10 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("[GameManager] InitializeGame() called");
         
-        // Grid is already initialized by GridRenderer.Start()
-        // Wait a frame to ensure grid is ready
-        StartCoroutine(InitializeGameDelayed());
-    }
-
-    private System.Collections.IEnumerator InitializeGameDelayed()
-    {
-        yield return null; // Wait one frame for grid to initialize
-        
         if (gridRenderer.GridData == null)
         {
             Debug.LogError("[GameManager] GridRenderer.GridData is null! Grid may not have initialized properly.");
-            yield break;
+            return;
         }
 
         // Create shooters based on colors present in grid
@@ -120,7 +138,7 @@ public class GameManager : MonoBehaviour
     private void CreateShooter(PixelColor color, int ballCount, int index)
     {
         Vector3 position = new Vector3(
-            index * 1.2f - 4f, 
+            index * shooterSpacing + shooterStartX, 
             -2f, 
             0f
         );

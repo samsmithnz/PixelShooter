@@ -25,6 +25,17 @@ namespace PixelShooter.Grid
         [Header("Runtime Data")]
         private GridData gridData;
         private PixelRenderer[,] pixelRenderers;
+        private bool isInitialized = false;
+
+        /// <summary>
+        /// Event fired when the grid has been fully initialized.
+        /// </summary>
+        public event System.Action OnGridInitialized;
+
+        /// <summary>
+        /// Gets whether the grid has been initialized.
+        /// </summary>
+        public bool IsInitialized => isInitialized;
 
         /// <summary>
         /// Gets the current grid data.
@@ -57,6 +68,10 @@ namespace PixelShooter.Grid
 
             // Create visual representation
             CreateGridVisuals();
+            
+            // Mark as initialized and fire event
+            isInitialized = true;
+            OnGridInitialized?.Invoke();
         }
 
         /// <summary>

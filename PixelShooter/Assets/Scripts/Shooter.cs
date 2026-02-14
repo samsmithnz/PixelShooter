@@ -6,6 +6,10 @@ public class Shooter : MonoBehaviour
     public PixelColor shooterColor;
     public int ballCount;
     
+    [Header("Movement Settings")]
+    [Tooltip("Boundary X position where shooter is considered out of bounds")]
+    public float rightBoundary = 10f;
+    
     private SpriteRenderer spriteRenderer;
     private TextMesh textMesh;
     private bool isActive = false;
@@ -61,7 +65,7 @@ public class Shooter : MonoBehaviour
         }
 
         // Check if out of bounds
-        if (transform.position.x > 10f)
+        if (transform.position.x > rightBoundary)
         {
             CheckIfShooterComplete();
         }
