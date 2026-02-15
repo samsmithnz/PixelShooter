@@ -256,6 +256,54 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!1 &804519342
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 804519344}
+  - component: {fileID: 804519343}
+  m_Layer: 0
+  m_Name: GridRenderer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &804519343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 804519342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70a8b2c4e76841069f7570cd55feba61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PixelShooter.Grid.GridRenderer
+  levelDefinition: {fileID: 11400000, guid: bd770aeadff7453d8da4103a2bfb08ab, type: 2}
+  cellSize: 1
+  cellSpacing: 0.1
+  pixelSprite: {fileID: 21300000, guid: 37485704ca214a6a9e01db0c12a860ca, type: 3}
+--- !u!4 &804519344
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 804519342}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1234567890
 GameObject:
   m_ObjectHideFlags: 0
@@ -302,11 +350,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfae4220748f0e2489cb38e8942b2021, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  gridManager: {fileID: 2345678902}
+  gridRenderer: {fileID: 0}
   shooterPrefab: {fileID: 4455576362364617879, guid: cae495d82ece7d442b1b148d39c2e632, type: 3}
   shooterSelectionArea: {fileID: 3456789012}
-  activeShooterPosition: {fileID: 0}
   statusText: {fileID: 0}
+  shooterSpacing: 1.2
+  shooterStartX: -4
 --- !u!1 &2345678900
 GameObject:
   m_ObjectHideFlags: 0
@@ -316,7 +365,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2345678901}
-  - component: {fileID: 2345678902}
   m_Layer: 0
   m_Name: GridManager
   m_TagString: Untagged
@@ -339,24 +387,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1234567891}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2345678902
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2345678900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3da9d316184e2c4da473fbb9d2f9a9f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GridManager
-  pixelPrefab: {fileID: 1716618327269224570, guid: d4127fe145f740c44990f3b6f5830c87, type: 3}
-  gridWidth: 8
-  gridHeight: 8
-  numberOfLayers: 2
-  pixelSize: 1
-  pixelSpacing: 0.1
 --- !u!1 &3456789011
 GameObject:
   m_ObjectHideFlags: 0
@@ -498,3 +528,4 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 1234567891}
   - {fileID: 4567890124}
+  - {fileID: 804519344}

@@ -137,7 +137,7 @@ namespace PixelShooter.Editor
         private static void SetupHUDInScene()
         {
             // Find or create Canvas
-            Canvas canvas = FindObjectOfType<Canvas>();
+            Canvas canvas = FindAnyObjectByType<Canvas>();
             if (canvas == null)
             {
                 GameObject canvasObj = new GameObject("HUDCanvas");

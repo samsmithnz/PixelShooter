@@ -23,8 +23,8 @@ public class Shooter : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         textMesh = GetComponentInChildren<TextMesh>();
-        gridRenderer = FindObjectOfType<GridRenderer>();
-        gameManager = FindObjectOfType<GameManager>();
+        gridRenderer = FindAnyObjectByType<GridRenderer>();
+        gameManager = FindAnyObjectByType<GameManager>();
     }
 
     public void Initialize(PixelColor color, int balls)

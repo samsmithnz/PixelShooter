@@ -154,21 +154,22 @@ namespace PixelShooter.Tests
             level.gridWidth = 3;
             level.gridHeight = 3;
             
-            // Initialize grid cells manually for testing
-            level.gridCells = new CellDefinition[3][];
+            // Initialize grid rows manually for testing
+            level.gridRows = new GridRow[3];
             for (int y = 0; y < 3; y++)
             {
-                level.gridCells[y] = new CellDefinition[3];
+                level.gridRows[y] = new GridRow();
+                level.gridRows[y].cells = new CellDefinition[3];
                 for (int x = 0; x < 3; x++)
                 {
-                    level.gridCells[y][x] = new CellDefinition();
+                    level.gridRows[y].cells[x] = new CellDefinition();
                 }
             }
             
             // Add some test pixels
-            level.gridCells[0][0].layers = new PixelColor[] { PixelColor.Red };
-            level.gridCells[0][1].layers = new PixelColor[] { PixelColor.Blue, PixelColor.Yellow };
-            level.gridCells[1][1].layers = new PixelColor[] { PixelColor.Green };
+            level.gridRows[0].cells[0].layers = new PixelColor[] { PixelColor.Red };
+            level.gridRows[0].cells[1].layers = new PixelColor[] { PixelColor.Blue, PixelColor.Yellow };
+            level.gridRows[1].cells[1].layers = new PixelColor[] { PixelColor.Green };
             
             // Create grid from definition
             GridData gridData = level.CreateGridData();

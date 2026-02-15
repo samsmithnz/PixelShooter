@@ -44,13 +44,42 @@ namespace PixelShooter.Grid
 
         private void Start()
         {
+            Debug.Log("[GridRenderer] Start() called");
+            
             if (levelDefinition != null)
             {
+                Debug.Log($"[GridRenderer] Level definition found: {levelDefinition.name}");
+                Debug.Log($"[GridRenderer] Level size: {levelDefinition.gridWidth}x{levelDefinition.gridHeight}");
+                Debug.Log($"[GridRenderer] Grid rows array length: {(levelDefinition.gridRows != null ? levelDefinition.gridRows.Length : 0)}");
+                
+                if (levelDefinition.gridRows != null && levelDefinition.gridRows.Length > 0)
+                {
+                    int totalCells = 0;
+                    int populatedCells = 0;
+                    for (int y = 0; y < levelDefinition.gridRows.Length; y++)
+                    {
+                        if (levelDefinition.gridRows[y] != null && levelDefinition.gridRows[y].cells != null)
+                        {
+                            totalCells += levelDefinition.gridRows[y].cells.Length;
+                            for (int x = 0; x < levelDefinition.gridRows[y].cells.Length; x++)
+                            {
+                                if (levelDefinition.gridRows[y].cells[x] != null && 
+                                    levelDefinition.gridRows[y].cells[x].layers != null && 
+                                    levelDefinition.gridRows[y].cells[x].layers.Length > 0)
+                                {
+                                    populatedCells++;
+                                }
+                            }
+                        }
+                    }
+                    Debug.Log($"[GridRenderer] Total cells: {totalCells}, Populated cells: {populatedCells}");
+                }
+                
                 LoadLevel(levelDefinition);
             }
             else
             {
-                Debug.LogWarning("No level definition assigned to GridRenderer");
+                Debug.LogError("[GridRenderer] No level definition assigned to GridRenderer!");
             }
         }
 

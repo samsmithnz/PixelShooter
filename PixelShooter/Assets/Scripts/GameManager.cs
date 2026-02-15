@@ -25,11 +25,16 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("[GameManager] Start() called");
         
-        // Validate required references
+        // Auto-find GridRenderer if not assigned
         if (gridRenderer == null)
         {
-            Debug.LogError("[GameManager] GridRenderer is NOT assigned! Please assign it in the Inspector.");
-            return;
+            gridRenderer = FindAnyObjectByType<GridRenderer>();
+            if (gridRenderer == null)
+            {
+                Debug.LogError("[GameManager] GridRenderer is NOT assigned and could not be found in the scene! Please assign it in the Inspector or ensure a GridRenderer exists in the scene.");
+                return;
+            }
+            Debug.Log("[GameManager] GridRenderer auto-found in scene.");
         }
         
         if (shooterPrefab == null)
@@ -119,8 +124,13 @@ public class GameManager : MonoBehaviour
     {
         Dictionary<PixelColor, int> counts = new Dictionary<PixelColor, int>();
         
+        Debug.Log($"[GameManager] CountPixelsPerColor() - GridRenderer: {(gridRenderer != null ? "OK" : "NULL")}");
+        Debug.Log($"[GameManager] CountPixelsPerColor() - GridData: {(gridRenderer?.GridData != null ? "OK" : "NULL")}");
+        
         if (gridRenderer != null && gridRenderer.GridData != null)
         {
+            Debug.Log($"[GameManager] Grid size: {gridRenderer.GridData.Width}x{gridRenderer.GridData.Height}");
+            
             // Count pixels of each color
             foreach (PixelColor color in System.Enum.GetValues(typeof(PixelColor)))
             {
@@ -128,8 +138,13 @@ public class GameManager : MonoBehaviour
                 if (count > 0)
                 {
                     counts[color] = count;
+                    Debug.Log($"[GameManager] Found {count} pixels of color {color}");
                 }
             }
+        }
+        else
+        {
+            Debug.LogError("[GameManager] Cannot count pixels - GridRenderer or GridData is null!");
         }
         
         return counts;

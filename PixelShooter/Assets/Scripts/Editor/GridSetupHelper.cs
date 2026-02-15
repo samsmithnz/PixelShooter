@@ -14,7 +14,7 @@ namespace PixelShooter.Editor
         public static void SetupGridRenderer()
         {
             // Check if a GridRenderer already exists
-            GridRenderer existingRenderer = FindObjectOfType<GridRenderer>();
+            GridRenderer existingRenderer = Object.FindAnyObjectByType<GridRenderer>();
             if (existingRenderer != null)
             {
                 Debug.LogWarning("A GridRenderer already exists in the scene.");

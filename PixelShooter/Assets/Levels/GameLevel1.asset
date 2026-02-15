@@ -3,72 +3,87 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 256260d9cd754d0eb3dc8e9c05aac2cb, type: 3}
   m_Name: GameLevel1
+  m_EditorClassIdentifier: 
   gridWidth: 8
   gridHeight: 8
-  gridCells:
-  - - {layers: [0]}
-    - {layers: [1]}
-    - {layers: [0]}
-    - {layers: [1]}
-    - {layers: [0]}
-    - {layers: [1]}
-    - {layers: [0]}
-    - {layers: [1]}
-  - - {layers: [1]}
-    - {layers: [0]}
-    - {layers: [1]}
-    - {layers: [0]}
-    - {layers: [1]}
-    - {layers: [0]}
-    - {layers: [1]}
-    - {layers: [0]}
-  - - {layers: [2]}
-    - {layers: [3]}
-    - {layers: [2]}
-    - {layers: [3]}
-    - {layers: [2]}
-    - {layers: [3]}
-    - {layers: [2]}
-    - {layers: [3]}
-  - - {layers: [3]}
-    - {layers: [2]}
-    - {layers: [3]}
-    - {layers: [2]}
-    - {layers: [3]}
-    - {layers: [2]}
-    - {layers: [3]}
-    - {layers: [2]}
-  - - {layers: [4]}
-    - {layers: [5]}
-    - {layers: [4]}
-    - {layers: [5]}
-    - {layers: [4]}
-    - {layers: [5]}
-    - {layers: [4]}
-    - {layers: [5]}
-  - - {layers: [5]}
-    - {layers: [4]}
-    - {layers: [5]}
-    - {layers: [4]}
-    - {layers: [5]}
-    - {layers: [4]}
-    - {layers: [5]}
-    - {layers: [4]}
-  - - {layers: [6]}
-    - {layers: [7]}
-    - {layers: [6]}
-    - {layers: [7]}
-    - {layers: [6]}
-    - {layers: [7]}
-    - {layers: [6]}
-    - {layers: [7]}
-  - - {layers: [7]}
-    - {layers: [6]}
-    - {layers: [7]}
-    - {layers: [6]}
-    - {layers: [7]}
-    - {layers: [6]}
-    - {layers: [7]}
-    - {layers: [6]}
+  gridRows:
+  - cells:
+    - layers: 0300000002000000
+    - layers: 01000000
+    - layers: 00000000
+    - layers: 01000000
+    - layers: 00000000
+    - layers: 01000000
+    - layers: 00000000
+    - layers: 0300000002000000
+  - cells:
+    - layers: 01000000
+    - layers: 00000000
+    - layers: 01000000
+    - layers: 00000000
+    - layers: 01000000
+    - layers: 00000000
+    - layers: 01000000
+    - layers: 00000000
+  - cells:
+    - layers: 00000000
+    - layers: 01000000
+    - layers: 00000000
+    - layers: 01000000
+    - layers: 00000000
+    - layers: 01000000
+    - layers: 00000000
+    - layers: 01000000
+  - cells:
+    - layers: 01000000
+    - layers: 00000000
+    - layers: 01000000
+    - layers: 00000000
+    - layers: 01000000
+    - layers: 00000000
+    - layers: 01000000
+    - layers: 00000000
+  - cells:
+    - layers: 00000000
+    - layers: 01000000
+    - layers: 00000000
+    - layers: 01000000
+    - layers: 00000000
+    - layers: 01000000
+    - layers: 00000000
+    - layers: 01000000
+  - cells:
+    - layers: 01000000
+    - layers: 00000000
+    - layers: 01000000
+    - layers: 00000000
+    - layers: 01000000
+    - layers: 00000000
+    - layers: 01000000
+    - layers: 00000000
+  - cells:
+    - layers: 00000000
+    - layers: 01000000
+    - layers: 00000000
+    - layers: 01000000
+    - layers: 00000000
+    - layers: 01000000
+    - layers: 00000000
+    - layers: 01000000
+  - cells:
+    - layers: 0300000002000000
+    - layers: 00000000
+    - layers: 01000000
+    - layers: 00000000
+    - layers: 01000000
+    - layers: 00000000
+    - layers: 01000000
+    - layers: 0300000002000000

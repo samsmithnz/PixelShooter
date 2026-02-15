@@ -24,7 +24,7 @@ namespace PixelShooter.UI
         {
             if (gameController == null)
             {
-                gameController = FindObjectOfType<Game.GameController>();
+                gameController = FindAnyObjectByType<Game.GameController>();
             }
 
             if (gameController != null)
